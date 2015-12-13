@@ -1,21 +1,34 @@
 require "json"
 require "openssl"
 require "net/http"
+require "base64"
 
 module Color
     class SDK
-        def initialize ( key, secret )
-            parts = key.split( "/" )
-            region = parts.shift()
-            url = parts.join( "/" )
+        def initialize ( apikey, apisecret )
 
-            @queue = "https://sqs." + region + ".amazonaws.com/" + url
-            @key = key
-            @secret = secret
+            accounts = apikey.split( "/" );
+            account = accounts.at( 0 );
+            qaccount = accounts.at( 1 );
+            decoded = Base64.decode64( apisecret ).split( "/" );
+            rand = decoded.at( 0 );
+            qid = decoded.at( 1 );
+            awsaccount = decoded.at( 2 );
+            region = decoded.at( 3 );
+
+
+            @queue = [ "https://sqs." + region + ".amazonaws.com",
+                awsaccount,
+                qaccount + "-" + qid
+            ].join( "/" )
+
+            @apikey = apikey
+            @apisecret = apisecret
             @buffer = "";
         end
 
-        def write ( entry )
+        def write ( table, entry )
+            entry[:__table] = table;
             @buffer += entry.to_json + "\n"
             if @buffer.size >= 60000
                 flush() # auto-flush
@@ -37,10 +50,10 @@ module Color
             req.body = "Action=SendMessage" +
                 "&MessageAttribute.1.Name=key" +
                 "&MessageAttribute.1.Value.DataType=String" + 
-                "&MessageAttribute.1.Value.StringValue=" + @key + 
+                "&MessageAttribute.1.Value.StringValue=" + @apikey + 
                 "&MessageAttribute.2.Name=secret" +
                 "&MessageAttribute.2.Value.DataType=String" +
-                "&MessageAttribute.2.Value.StringValue=" + @secret +
+                "&MessageAttribute.2.Value.StringValue=" + @apisecret +
                 "&MessageBody=" + buffer.encode( "utf-8" )
             
             Thread.new do 
