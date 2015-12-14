@@ -1,7 +1,8 @@
 require "./color"
 
-sdk = Color::SDK.new( "us-east-1/037335999562/test", "test" )
-sdk.write({hello:'world'})
+# test queue need to be generated
+sdk = Color::SDK.new( "testkey", "testsecrete" )
+sdk.write("reports", { hello: "world" } )
 sdk.flush()
 
 sleep( 5 )
