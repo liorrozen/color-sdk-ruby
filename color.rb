@@ -9,17 +9,15 @@ module Color
 
             accounts = apikey.split( "/" );
             account = accounts.at( 0 );
-            qaccount = accounts.at( 1 );
             decoded = Base64.decode64( apisecret ).split( "/" );
             rand = decoded.at( 0 );
-            qid = decoded.at( 1 );
             awsaccount = decoded.at( 2 );
             region = decoded.at( 3 );
 
 
             @queue = [ "https://sqs." + region + ".amazonaws.com",
                 awsaccount,
-                qaccount + "-" + qid
+                "sdk-" + account + "-" + rand
             ].join( "/" )
 
             @apikey = apikey
