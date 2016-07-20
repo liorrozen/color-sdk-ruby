@@ -27,3 +27,5 @@ sdk.write("reports", { id: "15", event: "install", user: 15, device: "iPhone" })
 sdk.write("reports", { event: "click", user: 12, device: "Web" })
 sdk.flush() # force a flush of the internal buffer to the queue
 ```
+
+See included `example.rb` for a usable example
