@@ -29,3 +29,9 @@ sdk.flush() # force a flush of the internal buffer to the queue
 ```
 
 See included `example.rb` for a usable example
+
+### Note about asynchronous requests
+
+The SDK sends HTTP POST requests in an asynchronous manner. Because of this it is
+advised to allow a sufficient amount of time for all the requests to be sent before
+allowing the code using the SDK to exit.
