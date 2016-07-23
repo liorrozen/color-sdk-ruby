@@ -12,7 +12,7 @@ Before using the SDK, you need to retrieve your API Key and API Secret from the 
 
 Add a reference to your Gemfile
 
-    gem "panoply-sdk-ruby": "git://github.com/panoplyio/panoply-sdk-ruby.git"
+    gem 'panoply-sdk-ruby', git: 'git://github.com/liorrozen/panoply-sdk-ruby.git'
 
 ### Usage
 
