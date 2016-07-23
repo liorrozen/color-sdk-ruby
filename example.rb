@@ -1,4 +1,4 @@
-require "./panoply-sdk-ruby.rb"
+require "./lib/panoply-sdk-ruby.rb"
 require "base64"
 
 # Extract these values from the platform when you
