@@ -55,7 +55,8 @@ module Color
       ].join("&")
 
       Thread.new do
-        http.request( req )
+        res = http.request( req )
+        puts "Panoply SDK request failed. Response: #{res.body} | Request: #{req.body}" if res.code != 200
       end
 
       self
